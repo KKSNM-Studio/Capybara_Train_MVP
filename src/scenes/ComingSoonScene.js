@@ -23,12 +23,12 @@ class ComingSoonScene extends Phaser.Scene {
     const surveyBtn = this.add.text(ui.cx, ui.h * 0.56, getText({ th: ' ตอบแบบสอบถาม', en: ' Answer Survey' }), 
     { fontFamily:'Kanit', fontSize:getResponsiveFontSize(this,20)+'px', color:'#fff', backgroundColor:'#86b49d', padding:{x:20,y:12}, 
     fixedWidth:buttonW, align:'center' }).setOrigin(0.5).setInteractive();
-    surveyBtn.on('pointerdown', () => { window.open('https://forms.gle/cm3dZsemqFkoH91e7', '_blank'), alert(getText({ th:'กรุณาเพิ่มลิงก์ Google Form ของคุณ', en:'Please add your Google Form link' })); });
+    surveyBtn.on('pointerdown', () => { window.open('https://forms.gle/RWVkTam2tANToacF8', '_blank'), alert(getText({ th:'กรุณาเพิ่มลิงก์ Google Form ของคุณ', en:'Please add your Google Form link' })); });
 
     const postcardBtn = this.add.text(ui.cx, ui.h * 0.66, getText({ th: ' ดาวน์โหลดโปสการ์ด', en: ' Download Postcard' }), 
     { fontFamily:'Kanit', fontSize:getResponsiveFontSize(this,20)+'px', color:'#fff', backgroundColor:'#c8a882', padding:{x:20,y:12}, 
     fixedWidth:buttonW, align:'center' }).setOrigin(0.5).setInteractive();
-    postcardBtn.on('pointerdown', () => { window.open('https://drive.google.com/drive/folders/1vM0E4IRKIl8SGE2fMjd5XFoTsTf7XEwG?usp=drive_link', '_blank'), alert(getText({ th:'กรุณาเพิ่มลิงก์ Google Drive ของคุณ', en:'Please add your Google Drive link' })); });
+    postcardBtn.on('pointerdown', () => { window.open('https://drive.google.com/drive/folders/1vM0E4IRKIl8SGE2fMjd5XFoTsTf7XEwG?usp=sharing', '_blank'), alert(getText({ th:'กรุณาเพิ่มลิงก์ Google Drive ของคุณ', en:'Please add your Google Drive link' })); });
 
     const restart = this.add.text(ui.cx, ui.h * 0.78, getText({ th:'🔄 เริ่มใหม่', en:'🔄 Play Again' }), { fontFamily:'Kanit', fontSize:getResponsiveFontSize(this,18)+'px', color:'#fff', backgroundColor:'#8b6f47', padding:{x:18,y:10}, fixedWidth: buttonW * 0.7, align:'center' }).setOrigin(0.5).setInteractive();
     restart.on('pointerdown', () => {
