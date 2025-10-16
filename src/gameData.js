@@ -53,7 +53,7 @@ const questions = [
     choices: [
       { text: { th: 'คาราโอเกะ!', en: 'KARAOKE!' } },
       { text: { th: 'ไปงานคอนแมวยักษ์เฟส', en: 'Go to Music Festival' } },
-      { text: { th: 'ไปดูงานเทศกาลของแมวยักษ์', en: 'Go to ' } }
+      { text: { th: 'ไปดูงานเทศกาลของแมวยักษ์', en: 'Go to CAT Fest ' } }
     ]
   }
 ];
@@ -179,10 +179,8 @@ const storySegments = {
     en: [
       'It seems like we have finally gotten past the chaotic situation.',
       'But it seems the destination is already ahead.',
-      'Du',
-      'rian',
-      'KG per',
-      '500',
+      'Durian',
+      'KG per 500',
       'It doesnt look like a giant cat entrance sign.',
       'But it looks like a restaurant sign.',
       'The kittens also shouted loudly like cat targets.',
