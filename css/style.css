@@ -1,0 +1,106 @@
+/* style.css - Capybara Train v2 (IMPROVED) */
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+html, body { 
+  height: 100%; 
+  width: 100%;
+}
+
+body {
+  font-family: 'Kanit', sans-serif;
+  background: #e0f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Constrain canvas visual area to 720x1280 max while staying responsive */
+#game-container {
+  width: 100vw;
+  height: 100vh;
+  max-width: 720px;
+  max-height: 1280px;
+  margin: 0 auto;
+  position: relative;
+  background: #e0f7fa;
+}
+
+/* IMPROVED: HTML input overlay styling with larger size */
+.name-input {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 540px;
+  max-width: 88%;
+  height: 70px;
+  padding: 18px 22px;
+  font-size: 24px;
+  font-family: 'Kanit', sans-serif;
+  border-radius: 14px;
+  border: 4px solid #c8a882;
+  outline: none;
+  background: #fff;
+  color: #4a4238;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.name-input:focus {
+  border-color: #86b49d;
+  box-shadow: 0 8px 25px rgba(134, 180, 157, 0.4);
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+.name-input::placeholder {
+  color: #999999;
+  font-size: 20px;
+}
+
+/* IMPROVED: Better mobile responsiveness */
+@media (max-width: 600px) {
+  .name-input { 
+    font-size: 20px;
+    height: 65px;
+    width: 90%;
+    padding: 16px 18px;
+  }
+  .name-input::placeholder {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .name-input { 
+    font-size: 18px; 
+    height: 60px;
+    width: 92%; 
+    padding: 14px 16px;
+  }
+  .name-input::placeholder {
+    font-size: 16px;
+  }
+}
+
+/* Add subtle animation on page load */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.name-input {
+  animation: fadeInScale 0.4s ease-out;
+}
