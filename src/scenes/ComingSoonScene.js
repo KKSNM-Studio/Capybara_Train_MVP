@@ -20,34 +20,82 @@ class ComingSoonScene extends Phaser.Scene {
     this.input.once('pointerdown', () => { if (t && t.getProgress && t.getProgress() < 1){ t.remove(false); body.setText(msg); } });
 
     const buttonW = Math.min(420, ui.safeW * 0.9);
-    const surveyBtn = this.add.text(ui.cx, ui.h * 0.56, getText({ th: ' ตอบแบบสอบถาม', en: ' Answer Survey' }), 
-    { fontFamily:'Kanit', fontSize:getResponsiveFontSize(this,20)+'px', color:'#fff', backgroundColor:'#86b49d', padding:{x:20,y:12}, 
-    fixedWidth:buttonW, align:'center' }).setOrigin(0.5).setInteractive();
-    surveyBtn.on('pointerup', () => {
-  // ✅ ใช้ pointerup เพราะถือว่าเป็น gesture เสร็จสมบูรณ์ (มือถือจึงไม่ block)
-  this.time.delayedCall(100, () => {
-    let link = document.createElement('a');
-    link.href = 'https://forms.gle/9KnqtKS5HnU7x8pK9';
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.click();
-  });
-});
+    
+// === ตรวจสอบว่าเป็นมือถือหรือไม่ ===
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    const postcardBtn = this.add.text(ui.cx, ui.h * 0.66, getText({ th: ' ดาวน์โหลดโปสการ์ด', en: ' Download Postcard' }), 
-    { fontFamily:'Kanit', fontSize:getResponsiveFontSize(this,20)+'px', color:'#fff', backgroundColor:'#c8a882', padding:{x:20,y:12}, 
-    fixedWidth:buttonW, align:'center' }).setOrigin(0.5).setInteractive();
-    postcardBtn.on('pointerup', () => {
-  this.time.delayedCall(100, () => {
-    let link = document.createElement('a');
-    link.href = 'https://drive.google.com/drive/folders/1vM0E4IRKIl8SGE2fMjd5XFoTsTf7XEwG?usp=sharing';
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.click();
-  });
-});
+// === สร้างปุ่ม Phaser ก่อน (ใช้ได้กับ desktop) ===
+const surveyBtn = this.add.text(
+  ui.cx, ui.h * 0.45,
+  getText({ th: '📝 ตอบแบบสอบถาม', en: '📝 Answer Survey' }),
+  {
+    fontFamily: 'Kanit',
+    fontSize: getResponsiveFontSize(this, 28) + 'px',
+    color: '#fff',
+    backgroundColor: '#86b49d',
+    padding: { x: 20, y: 12 },
+    fixedWidth: buttonW,
+    align: 'center'
+  }
+).setOrigin(0.5).setInteractive();
 
-    const restart = this.add.text(ui.cx, ui.h * 0.78, getText({ th:'🔄 เริ่มใหม่', en:'🔄 Play Again' }), { fontFamily:'Kanit', fontSize:getResponsiveFontSize(this,18)+'px', color:'#fff', backgroundColor:'#8b6f47', padding:{x:18,y:10}, fixedWidth: buttonW * 0.7, align:'center' }).setOrigin(0.5).setInteractive();
+const postcardBtn = this.add.text(
+  ui.cx, ui.h * 0.54,
+  getText({ th: '📮 ดาวน์โหลดโปสการ์ด', en: '📮 Download Postcard' }),
+  {
+    fontFamily: 'Kanit',
+    fontSize: getResponsiveFontSize(this, 28) + 'px',
+    color: '#fff',
+    backgroundColor: '#ca8882',
+    padding: { x: 20, y: 12 },
+    fixedWidth: buttonW,
+    align: 'center'
+  }
+).setOrigin(0.5).setInteractive();
+
+// ✅ ถ้าเป็น desktop → ใช้ Phaser ปกติ
+if (!isMobile) {
+  surveyBtn.on('pointerup', () => {
+    window.open('https://forms.gle/9KnqtKS5HnU7x8pK9', '_blank');
+  });
+
+  postcardBtn.on('pointerup', () => {
+    window.open('https://drive.google.com/drive/folders/1vM0E4IRKIl8SGE2fMjd5XFoTsTf7XEwG?usp=sharing', '_blank');
+  });
+
+} else {
+  // 📱 Mobile: ใช้ DOM ปุ่มจริง (ไม่โดนบล็อก)
+  const makeDomButton = (label, url, color, yPercent) => {
+    const btn = document.createElement('button');
+    btn.innerText = label;
+    btn.style.position = 'absolute';
+    btn.style.left = '50%';
+    btn.style.top = `${yPercent}%`;
+    btn.style.transform = 'translateX(-50%)';
+    btn.style.padding = '12px 20px';
+    btn.style.fontFamily = 'Kanit';
+    btn.style.fontSize = '18px';
+    btn.style.background = color;
+    btn.style.color = '#fff';
+    btn.style.border = 'none';
+    btn.style.borderRadius = '8px';
+    btn.style.cursor = 'pointer';
+    btn.style.zIndex = 9999;
+    btn.style.boxShadow = '0 3px 5px rgba(0,0,0,0.2)';
+    document.body.appendChild(btn);
+
+    btn.addEventListener('click', () => window.open(url, '_blank'));
+
+    // เมื่อออกจาก Scene ให้ลบปุ่มออก
+    this.events.once('shutdown', () => btn.remove());
+  };
+
+  makeDomButton('📝 ตอบแบบสอบถาม', 'https://forms.gle/9KnqtKS5HnU7x8pK9', '#86b49d', 45);
+  makeDomButton('📮 ดาวน์โหลดโปสการ์ด', 'https://drive.google.com/drive/folders/1vM0E4IRKIl8SGE2fMjd5XFoTsTf7XEwG?usp=sharing', '#ca8882', 54);
+}
+
+    
+    const restart = this.add.text(ui.cx, ui.h * 0.85, getText({ th:'🔄 เริ่มใหม่', en:'🔄 Play Again' }), { fontFamily:'Kanit', fontSize:getResponsiveFontSize(this,18)+'px', color:'#fff', backgroundColor:'#8b6f47', padding:{x:18,y:10}, fixedWidth: buttonW * 0.7, align:'center' }).setOrigin(0.5).setInteractive();
     restart.on('pointerdown', () => {
       resetGameData();
       fadeSceneTransition(this, 'StartScene', {}, 350);
